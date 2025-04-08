@@ -45,7 +45,7 @@ public class GlobalExceptionHandlingMiddleware
             _logger.LogError(ex, "Unhandled exception");
             context.Response.StatusCode = StatusCodes.Status500InternalServerError;
             await context.Response.WriteAsJsonAsync(
-                new { error = "An unexpected error occurred." }
+                new { error = "An unexpected error occurred.", details = ex.Message }
             );
         }
     }

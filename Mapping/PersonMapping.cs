@@ -30,4 +30,17 @@ public static class PersonMapping
             BirthPlace = createPersonDTO.BirthPlace,
         };
     }
+
+    public static Person ToEnity(this UpdatePersonDTO createPersonDTO)
+    {
+        return new Person
+        {
+            Id = Guid.NewGuid(),
+            FirstName = createPersonDTO.FirstName,
+            LastName = createPersonDTO.LastName,
+            DateOfBirth = createPersonDTO.DateOfBirth,
+            Gender = createPersonDTO.Gender,
+            BirthPlace = createPersonDTO.BirthPlace,
+        };
+    }
 }

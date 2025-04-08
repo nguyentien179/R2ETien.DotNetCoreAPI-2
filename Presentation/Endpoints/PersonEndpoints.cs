@@ -1,6 +1,9 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using _netcore_2.Application.DTOs;
 using _netcore_2.Application.Interface;
+using _netcore_2.Application.Validators;
+using FluentValidation;
 
 namespace _netcore_2.Presentation.Endpoints;
 
@@ -8,7 +11,7 @@ public static class PersonEndpoints
 {
     public static RouteGroupBuilder MapPersonEndpoints(this WebApplication app)
     {
-        var group = app.MapGroup("/api/person").WithParameterValidation();
+        var group = app.MapGroup("/api/person");
 
         group
             .MapGet(
@@ -51,8 +54,15 @@ public static class PersonEndpoints
         group
             .MapPost(
                 "/",
-                async (CreatePersonDTO createPersonDTO, IPersonService personService) =>
+                async (
+                    CreatePersonDTO createPersonDTO,
+                    IPersonService personService,
+                    IValidator<CreatePersonDTO> validator
+                ) =>
                 {
+                    var validation = await createPersonDTO.Validate(validator);
+                    if (validation is not null)
+                        return validation;
                     await personService.CreateAsync(createPersonDTO);
                     return Results.Ok(createPersonDTO);
                 }
@@ -64,8 +74,16 @@ public static class PersonEndpoints
         group
             .MapPut(
                 "/{id:guid}",
-                async (Guid id, UpdatePersonDTO updatePersonDTO, IPersonService personService) =>
+                async (
+                    Guid id,
+                    UpdatePersonDTO updatePersonDTO,
+                    IValidator<UpdatePersonDTO> validator,
+                    IPersonService personService
+                ) =>
                 {
+                    var validation = await updatePersonDTO.Validate(validator);
+                    if (validation is not null)
+                        return validation;
                     await personService.UpdateAsync(id, updatePersonDTO);
                     return Results.Ok("updated");
                 }
