@@ -47,6 +47,7 @@ public static class PersonEndpoints
             .Produces(StatusCodes.Status200OK)
             .Produces<string>(StatusCodes.Status404NotFound);
         ;
+
         group
             .MapPost(
                 "/",
@@ -71,6 +72,7 @@ public static class PersonEndpoints
             )
             .Produces(StatusCodes.Status200OK)
             .Produces<string>(StatusCodes.Status404NotFound);
+
         group
             .MapDelete(
                 "/{id:guid}",
