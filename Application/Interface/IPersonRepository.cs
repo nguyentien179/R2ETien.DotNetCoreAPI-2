@@ -9,6 +9,6 @@ public interface IPersonRepository
     Task<Person?> GetByIdAsync(Guid id);
     Task CreateAsync(Person person);
     Task UpdateAsync(Person person);
-    Task DeleteAsync(Guid id);
+    Task DeleteAsync(Person person);
     IQueryable<Person> GetQueryable();
 }

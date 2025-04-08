@@ -122,11 +122,9 @@ public class PersonService : IPersonService
 
     public async Task DeleteAsync(Guid id)
     {
-        var person = await _personRepository.GetByIdAsync(id);
-        if (person == null)
-        {
-            throw new KeyNotFoundException($"Person with ID {id} not found.");
-        }
-        await _personRepository.DeleteAsync(id);
+        var person =
+            await _personRepository.GetByIdAsync(id)
+            ?? throw new KeyNotFoundException($"Person with ID {id} not found.");
+        await _personRepository.DeleteAsync(person);
     }
 }

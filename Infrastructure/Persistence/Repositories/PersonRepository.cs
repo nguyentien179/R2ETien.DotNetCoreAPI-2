@@ -36,14 +36,10 @@ public class PersonRepository : IPersonRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task DeleteAsync(Person person)
     {
-        var person = await GetByIdAsync(id);
-        if (person != null)
-        {
-            _context.Person.Remove(person);
-            await _context.SaveChangesAsync();
-        }
+        _context.Person.Remove(person);
+        await _context.SaveChangesAsync();
     }
 
     public IQueryable<Person> GetQueryable()
